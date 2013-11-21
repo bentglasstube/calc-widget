@@ -196,10 +196,7 @@ public class CalcWidgetProvider extends AppWidgetProvider {
   }
 
   private void setOperation(Context context, int id, String operation) {
-    String op = getValue(context, id, OPERATOR);
-    String b = getValue(context, id, SECOND);
-
-    if (operation.equals(MINUS) && b.equals("0")) {
+    if (operation.equals(MINUS) && getValue(context, id, SECOND).equals("0")) {
       setValue(context, id, SECOND, "-");
       setClear(context, id, false);
       return;
@@ -208,7 +205,7 @@ public class CalcWidgetProvider extends AppWidgetProvider {
     showResult(context, id);
 
     setValue(context, id, OPERATOR, operation);
-    setValue(context, id, FIRST, b);
+    setValue(context, id, FIRST, getValue(context, id, SECOND));
     setValue(context, id, SECOND, "0");
   }
 
