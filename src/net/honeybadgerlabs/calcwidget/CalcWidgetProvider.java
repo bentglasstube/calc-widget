@@ -120,7 +120,11 @@ public class CalcWidgetProvider extends AppWidgetProvider {
       views.setTextViewText(R.id.expression, "");
     }
 
-    views.setTextViewText(R.id.value, b);
+    if (b.equals("")) {
+      views.setTextViewText(R.id.value, "0");
+    } else {
+      views.setTextViewText(R.id.value, b);
+    }
 
     setListeners(context, id, views);
 
