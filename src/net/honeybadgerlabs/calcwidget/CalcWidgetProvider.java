@@ -158,9 +158,7 @@ public class CalcWidgetProvider extends AppWidgetProvider {
   private void removeLast(Context context, int id) {
     String value = getClear(context, id) ? "0" : getValue(context, id, SECOND);
 
-    if (value.equals("0")) {
-      // TODO backtrack to first number
-    } else if (value.length() == 1) {
+    if (value.length() == 1) {
       setValue(context, id, SECOND, "0");
     } else {
       setValue(context, id, SECOND, value.substring(0, value.length() - 1));
