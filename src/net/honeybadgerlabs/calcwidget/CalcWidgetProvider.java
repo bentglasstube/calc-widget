@@ -214,7 +214,6 @@ public class CalcWidgetProvider extends AppWidgetProvider {
 
     setValue(context, id, OPERATOR, operation);
     setValue(context, id, FIRST, getValue(context, id, SECOND));
-    setValue(context, id, SECOND, "0");
   }
 
   private void setListeners(Context context, int id, RemoteViews views) {
