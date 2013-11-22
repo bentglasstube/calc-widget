@@ -3,12 +3,15 @@ package net.honeybadgerlabs.calcwidget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -40,6 +43,8 @@ public class CalcWidgetProvider extends AppWidgetProvider {
   public static final String FIRST = "net.honeybadgerlabs.calcwidget.first";
   public static final String SECOND = "net.honeybadgerlabs.calcwidget.second";
   public static final String OPERATOR = "net.honeybadgerlabs.calcwidget.operator";
+
+  public static final String RESULT = "net.honeybadgerlabs.calcwidget.result";
 
   @Override public void onUpdate(Context context, AppWidgetManager manager, int[] ids) {
     for (int id : ids) {
@@ -86,6 +91,8 @@ public class CalcWidgetProvider extends AppWidgetProvider {
       setOperation(context, id, TIMES);
     } else if (intent.getAction().equals(DIVIDE)) {
       setOperation(context, id, DIVIDE);
+    } else if (intent.getAction().equals(RESULT)) {
+      copyValue(context, id);
     }
 
     AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -272,6 +279,9 @@ public class CalcWidgetProvider extends AppWidgetProvider {
 
     intent.setAction(DIVIDE);
     views.setOnClickPendingIntent(R.id.divide, PendingIntent.getBroadcast(context, sid + 16, intent, 0));
+
+    intent.setAction(RESULT);
+    views.setOnClickPendingIntent(R.id.value, PendingIntent.getBroadcast(context, sid + 17, intent, 0));
   }
 
   private String getValue(Context context, int id, String name) {
@@ -289,5 +299,11 @@ public class CalcWidgetProvider extends AppWidgetProvider {
   private void setClear(Context context, int id, boolean value) {
     Log.d(TAG, "Setting clear to " + value + " for widget #" + id);
     PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(CLEAR + id, value).commit();
+  }
+
+  private void copyValue(Context context, int id) {
+    ClipboardManager manager = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+    manager.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.copy_label), getValue(context, id, SECOND)));
+    Toast.makeText(context, context.getString(R.string.toast_body), Toast.LENGTH_SHORT).show();
   }
 }
