@@ -3,6 +3,7 @@
     android:initialLayout="@layout/calculator"
     android:widgetCategory="keyguard|home_screen"
     android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/preview"
     android:minHeight="200dp"
     android:minWidth="200dp" >
 </appwidget-provider>
